@@ -1,0 +1,20 @@
+# Xcode
+*.xcodeproj/
+xcuserdata/
+DerivedData/
+build/
+*.xcworkspace
+
+# SPM
+.build/
+.swiftpm/
+Packages/
+
+# Config (API keys)
+Config.xcconfig
+
+# OS
+.DS_Store
+
+# SQLite build artifacts
+# Note: fcc_spectrum.sqlite IS committed (bundled resource)

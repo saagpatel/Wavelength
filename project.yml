@@ -1,0 +1,64 @@
+name: Wavelength
+options:
+  bundleIdPrefix: com.yourname
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6"
+    SWIFT_STRICT_CONCURRENCY: complete
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    TARGETED_DEVICE_FAMILY: "1"
+
+packages:
+  GRDB:
+    url: https://github.com/groue/GRDB.swift
+    from: "7.0.0"
+  Alamofire:
+    url: https://github.com/Alamofire/Alamofire
+    from: "5.9.0"
+  SatelliteKit:
+    url: https://github.com/gavineadie/SatelliteKit
+    from: "2.0.0"
+
+targets:
+  Wavelength:
+    type: application
+    platform: iOS
+    sources:
+      - path: Wavelength
+    resources:
+      - path: Wavelength/Resources
+        buildPhase: resources
+    dependencies:
+      - package: GRDB
+      - package: Alamofire
+      - package: SatelliteKit
+      - sdk: Metal.framework
+      - sdk: MetalKit.framework
+      - sdk: CoreBluetooth.framework
+      - sdk: CoreTelephony.framework
+      - sdk: NetworkExtension.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourname.wavelength
+        CODE_SIGN_ENTITLEMENTS: Wavelength/Wavelength.entitlements
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Wavelength uses your location to show nearby cell towers, FM stations, and satellites."
+        INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription: "Wavelength detects nearby Bluetooth devices to display them on the spectrogram."
+
+  WavelengthTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: WavelengthTests
+    dependencies:
+      - target: Wavelength
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourname.wavelength.tests
+        GENERATE_INFOPLIST_FILE: true
