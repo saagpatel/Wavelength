@@ -1,6 +1,6 @@
 name: Wavelength
 options:
-  bundleIdPrefix: com.yourname
+  bundleIdPrefix: com.wavelength
   deploymentTarget:
     iOS: "17.0"
   createIntermediateGroups: true
@@ -33,6 +33,7 @@ targets:
     resources:
       - path: Wavelength/Resources
         buildPhase: resources
+      - path: Wavelength/Resources/PrivacyInfo.xcprivacy
     dependencies:
       - package: GRDB
       - package: Alamofire
@@ -44,7 +45,8 @@ targets:
       - sdk: NetworkExtension.framework
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.yourname.wavelength
+        PRODUCT_BUNDLE_IDENTIFIER: com.wavelength.app
+        DEVELOPMENT_TEAM: 3TGZFKFNA4
         CODE_SIGN_ENTITLEMENTS: Wavelength/Wavelength.entitlements
         GENERATE_INFOPLIST_FILE: true
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
@@ -60,5 +62,5 @@ targets:
       - target: Wavelength
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.yourname.wavelength.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.wavelength.app.tests
         GENERATE_INFOPLIST_FILE: true
