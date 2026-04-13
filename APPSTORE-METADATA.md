@@ -169,3 +169,6 @@ Character count: 143
 - [ ] Price: Free
 - [ ] Availability: All territories (or configure as needed)
 - [ ] TestFlight internal testing completed — 7+ days, 0 crashes, ≥8 signal annotations in each test environment (home, urban outdoor, coffee shop)
+
+## Copyright
+© 2026 saagpatel
