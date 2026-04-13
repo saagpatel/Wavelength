@@ -86,9 +86,9 @@ Character count: 143
 
 | Field | URL |
 |---|---|
-| Support URL | https://github.com/[owner]/wavelength/issues |
-| Marketing URL | https://github.com/[owner]/wavelength |
-| Privacy Policy URL | https://github.com/[owner]/wavelength/blob/main/PRIVACY.md |
+| Support URL | https://github.com/saagpatel/Wavelength/issues |
+| Marketing URL | https://github.com/saagpatel/Wavelength |
+| Privacy Policy URL | https://github.com/saagpatel/Wavelength/blob/main/PRIVACY.md |
 
 *Replace `[owner]` with the GitHub username before submission.*
 
