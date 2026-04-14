@@ -1,0 +1,35 @@
+Wavelength turns your iPhone into a window into the invisible electromagnetic world around you.
+
+The radio frequency spectrum is alive with signals — Bluetooth headphones, LTE towers, GPS satellites, FM broadcasts, aircraft transponders. Wavelength renders all of it in a real-time, GPU-accelerated spectrogram so you can see exactly what is transmitting, at what frequency, and why.
+
+Three tiers of signal intelligence
+
+Wavelength distinguishes what your device actually detects from what contextual data confirms is nearby:
+
+- Live — signals sensed directly by your iPhone hardware: Bluetooth devices in range, your connected Wi-Fi access point, and your cellular carrier's active band
+- Nearby — signals confirmed present at your GPS location via FCC databases, OpenCellID tower records, and live satellite position calculations
+- Probable — signals inferred from context, such as ADS-B aircraft transponders near airports and 5G markers in dense urban areas
+
+Real-time Metal rendering
+
+The spectrogram runs on the GPU — a 1024-frequency-bin × 512-time-column texture rendered at 30 fps using a Viridis colormap optimized for OLED displays and colorblind users. A logarithmic frequency axis gives the FM broadcast band, GPS, Bluetooth, Wi-Fi 5 GHz, and 5G C-band each appropriate visual space.
+
+Annotated contextual overlay
+
+Every signal on screen is labeled. Tap any annotation to open a detail panel showing the carrier name, exact frequency, signal strength (when available), provenance explanation, and a plain-language description of what that signal is and why it exists.
+
+What you will find at any location
+
+- FM broadcast stations by call sign, city, and licensed frequency
+- Cell towers from OpenCellID with operator and band information
+- GPS, Iridium, and Starlink satellites currently overhead, updated from live TLE data
+- FCC spectrum allocation bands color-coded by service type (broadcast, cellular, aviation)
+- Bluetooth devices classified by type (headphones, smartwatch, beacon)
+
+Privacy by design
+
+Wavelength has no user accounts, no analytics, no advertising, and no backend. All contextual data is cached locally. Bluetooth device names are hidden by default. Location data is rounded to ~111 meters in all logs. The only outbound connections are to OpenCellID (cell tower lookup), CelesTrak (satellite orbital data), and the FCC FM station database — each cached for days to weeks. Open source under the MIT license.
+
+Who this is for
+
+RF engineers curious about what their hardware actually sees. IT and security professionals auditing wireless environments. Anyone who has ever wondered what "the spectrum" looks like in a coffee shop, an airport, or a dense urban block.
