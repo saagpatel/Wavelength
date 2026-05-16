@@ -45,3 +45,45 @@ See IMPLEMENTATION-ROADMAP.md for full task list, acceptance criteria, and verif
 - Do not build mmWave (28 GHz) or RTL-SDR hardware support in v1 — explicitly deferred
 - Do not add gamification, badges, or social features — clean, aesthetic, informational only
 - Do not add features not in the current phase of IMPLEMENTATION-ROADMAP.md
+
+<!-- portfolio-context:start -->
+# Portfolio Context
+
+## What This Project Is
+
+Wavelength is an open-source iOS app (iPhone, iOS 17+) that renders a real-time annotated spectrogram of the electromagnetic environment. It fuses live device sensing (Bluetooth LE, Wi-Fi, cellular) with GPS-anchored contextual data (FCC allocations, OpenCellID towers, FM stations, satellite TLEs) to show users what signals surround them at any location. MIT licensed, no backend, no user accounts, no analytics.
+
+## Current State
+
+**Phase 0: Foundation (Weeks 1–2)**
+See IMPLEMENTATION-ROADMAP.md for full task list, acceptance criteria, and verification checklist.
+
+## Stack
+
+- Swift: 6.0 (strict concurrency, actor isolation throughout)
+- SwiftUI: iOS 17+ (Observable macro, no UIKit except MTKView bridge)
+- Metal: 3 — GPU compute shader for spectrogram texture rendering
+- GRDB.swift: ~6.x — SQLite ORM, type-safe queries, migration runner
+- Alamofire: ~5.9 — HTTP client for OpenCellID, CelesTrak, FCC FM APIs
+- SwiftyTLE: latest — TLE parsing + SGP4 propagator for satellite positions
+- CoreBluetooth / CoreTelephony / CoreLocation / NetworkExtension: system frameworks
+
+## How To Run
+
+Deploy to a physical device. Grant Bluetooth, Wi-Fi (Location), and Location permissions on first launch. The spectrogram starts rendering immediately; tap any signal band to inspect it.
+
+## Known Risks
+
+- Do not use `localStorage`, `UserDefaults` for signal data — all state in GRDB SQLite
+- Do not add CocoaPods or Carthage — SPM only
+- Do not store raw Bluetooth device names or MAC addresses — privacy mode on by default; display category only
+- Do not call external APIs on every app foreground — respect cache TTLs (towers: 7 days, TLEs: 24h, FM: 30 days)
+- Do not build mmWave (28 GHz) or RTL-SDR hardware support in v1 — explicitly deferred
+- Do not add gamification, badges, or social features — clean, aesthetic, informational only
+- Do not add features not in the current phase of IMPLEMENTATION-ROADMAP.md
+
+## Next Recommended Move
+
+Use this context plus the README and supporting docs to resume the next active task, then promote the repo beyond minimum-viable by capturing a dedicated handoff, roadmap, or discovery artifact.
+
+<!-- portfolio-context:end -->
