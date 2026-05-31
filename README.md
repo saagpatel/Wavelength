@@ -8,7 +8,7 @@ Wavelength is a real-time electromagnetic spectrum visualizer for iOS. It render
 
 ## Features
 
-- **GPU-rendered spectrogram** — Metal compute shader draws a 1024×512 RGBA16F circular-buffer texture at 30 fps using viridis or magma colormaps
+- **GPU-rendered spectrogram** — Metal compute shader draws a 1024×512 RGBA8Unorm circular-buffer texture at 30 fps using viridis or magma colormaps
 - **Three signal tiers** — Live (hardware-sensed), Nearby (database + GPS confirmed), and Probable (location-inferred) rendered with distinct visual weight
 - **Multi-source sensing** — CoreBluetooth, NEHotspot Wi-Fi scan, CoreTelephony cellular band detection, and CoreLocation geofencing
 - **FCC band overlay** — spectrum allocation bands drawn as labeled regions directly on the spectrogram (~8 MB bundled SQLite)
@@ -43,7 +43,7 @@ Deploy to a physical device. Grant Bluetooth, Wi-Fi (Location), and Location per
 
 ## Architecture
 
-Four sensor adapters (`BluetoothAdapter`, `WiFiAdapter`, `CellularAdapter`, `LocationAdapter`) run as independent actors, each publishing detected signals to a central `SignalAggregator`. The aggregator merges signals into frequency buckets and writes to a `MTLBuffer` that the Metal compute shader reads each frame. The shader maps power levels to colormap indices and writes to the circular-buffer texture, which the render pipeline samples as a scrolling waterfall. FCC allocation lookups are batched SQL queries triggered only on visible frequency range changes.
+Four sensor actors (`BluetoothScanner`, `WiFiScanner`, `CellularMonitor`, `LocationMonitor`) publish detected signals to a central `SignalRegistry`. The registry merges signals into frequency buckets and writes to a `MTLBuffer` that the Metal compute shader reads each frame. The shader maps power levels to colormap indices and writes to the circular-buffer texture, which the render pipeline samples as a scrolling waterfall. FCC allocation lookups are batched SQL queries triggered only on visible frequency range changes.
 
 ## License
 

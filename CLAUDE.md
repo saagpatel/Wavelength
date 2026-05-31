@@ -7,9 +7,9 @@ Wavelength is an open-source iOS app (iPhone, iOS 17+) that renders a real-time 
 - Swift: 6.0 (strict concurrency, actor isolation throughout)
 - SwiftUI: iOS 17+ (Observable macro, no UIKit except MTKView bridge)
 - Metal: 3 — GPU compute shader for spectrogram texture rendering
-- GRDB.swift: ~6.x — SQLite ORM, type-safe queries, migration runner
+- GRDB.swift: ~7.x — SQLite ORM, type-safe queries, migration runner
 - Alamofire: ~5.9 — HTTP client for OpenCellID, CelesTrak, FCC FM APIs
-- SwiftyTLE: latest — TLE parsing + SGP4 propagator for satellite positions
+- SatelliteKit: ~2.x (gavineadie/SatelliteKit) — TLE parsing + SGP4 propagator for satellite positions
 - CoreBluetooth / CoreTelephony / CoreLocation / NetworkExtension: system frameworks
 
 ## Development Conventions
@@ -21,8 +21,7 @@ Wavelength is an open-source iOS app (iPhone, iOS 17+) that renders a real-time 
 - Minimum deployment target: iOS 17.0
 
 ## Current Phase
-**Phase 0: Foundation (Weeks 1–2)**
-See IMPLEMENTATION-ROADMAP.md for full task list, acceptance criteria, and verification checklist.
+**Phases 0–3 complete.** Core Metal spectrogram pipeline, live sensing (Bluetooth, Wi-Fi, cellular), contextual overlay (FCC bands, cell towers, FM stations, satellites), settings, onboarding, and App Store metadata are all implemented across 56 files with 63 passing tests. Remaining: TestFlight beta testing and App Store submission. See IMPLEMENTATION-ROADMAP.md for the full task list and acceptance criteria.
 
 ## Key Decisions
 | Decision | Choice | Why |
@@ -55,17 +54,16 @@ Wavelength is an open-source iOS app (iPhone, iOS 17+) that renders a real-time 
 
 ## Current State
 
-**Phase 0: Foundation (Weeks 1–2)**
-See IMPLEMENTATION-ROADMAP.md for full task list, acceptance criteria, and verification checklist.
+**Phases 0–3 complete.** Core Metal spectrogram pipeline, live sensing (Bluetooth, Wi-Fi, cellular), contextual overlay (FCC bands, cell towers, FM stations, satellites), settings, onboarding, and App Store metadata are all implemented (56 files, 63 tests). Remaining: TestFlight beta testing and App Store submission.
 
 ## Stack
 
 - Swift: 6.0 (strict concurrency, actor isolation throughout)
 - SwiftUI: iOS 17+ (Observable macro, no UIKit except MTKView bridge)
 - Metal: 3 — GPU compute shader for spectrogram texture rendering
-- GRDB.swift: ~6.x — SQLite ORM, type-safe queries, migration runner
+- GRDB.swift: ~7.x — SQLite ORM, type-safe queries, migration runner
 - Alamofire: ~5.9 — HTTP client for OpenCellID, CelesTrak, FCC FM APIs
-- SwiftyTLE: latest — TLE parsing + SGP4 propagator for satellite positions
+- SatelliteKit: ~2.x (gavineadie/SatelliteKit) — TLE parsing + SGP4 propagator for satellite positions
 - CoreBluetooth / CoreTelephony / CoreLocation / NetworkExtension: system frameworks
 
 ## How To Run
