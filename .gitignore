@@ -18,3 +18,4 @@ Config.xcconfig
 
 # SQLite build artifacts
 # Note: fcc_spectrum.sqlite IS committed (bundled resource)
+CLAUDE.md.bak
