@@ -15,7 +15,7 @@ iOS app (iPhone, iOS 17+) rendering a real-time annotated spectrogram of the ele
 ## Build / Test / Run
 - Build and test: open in Xcode, build scheme `Wavelength`, run tests with `xcodebuild test`
 - Deploy to a physical device — grant Bluetooth, Wi-Fi (Location), and Location permissions on first launch
-- Phases 0–3 complete (56 files, 63 passing tests); next: TestFlight beta and App Store submission
+- Phases 0–3 complete (56 files, 89 passing tests); next: TestFlight beta and App Store submission
 - Full task list and acceptance criteria: `IMPLEMENTATION-ROADMAP.md`
 
 ## Conventions
@@ -56,7 +56,7 @@ Wavelength is an open-source iOS app (iPhone, iOS 17+) that renders a real-time 
 
 ## Current State
 
-**Phases 0–3 complete.** Core Metal spectrogram pipeline, live sensing (Bluetooth, Wi-Fi, cellular), contextual overlay (FCC bands, cell towers, FM stations, satellites), settings, onboarding, and App Store metadata are all implemented (56 files, 63 tests). Remaining: TestFlight beta testing and App Store submission.
+**Phases 0–3 complete.** Core Metal spectrogram pipeline, live sensing (Bluetooth, Wi-Fi, cellular), contextual overlay (FCC bands, cell towers, FM stations, satellites), settings, onboarding, and App Store metadata are all implemented (56 files, 89 tests). Remaining: TestFlight beta testing and App Store submission.
 
 ## Stack
 
