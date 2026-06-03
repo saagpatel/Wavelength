@@ -58,7 +58,7 @@ Wavelength is a SwiftUI iOS app that visualizes wireless signals
 around the user — Bluetooth (via CoreBluetooth scan), WiFi (via
 NetworkExtension framework, where entitlements permit), cellular
 signal strength, and educational FCC-band context. Per memory:
-Phase 3 complete, 63 tests. The canonical commit cadence shows
+Phases 0–3 complete, 89 tests. The canonical commit cadence shows
 full App Store prep cadence (DEVELOPMENT_TEAM + Privacy Manifest +
 APPSTORE-METADATA + ExportOptions + copyright + privacy policy +
 fastlane deliver + final AI icon). The "See the Invisible RF World"
@@ -167,7 +167,7 @@ Estimated operator time: ~3-4 hours.
    fix — wireless scan APIs may need declarations).
 5. **Test on physical device with active Bluetooth + WiFi**
    environments.
-6. Run XCTest target — 63 tests per memory.
+6. Run Swift Testing / XCTest target — 89 tests.
 
 ---
 
@@ -181,7 +181,7 @@ Estimated operator time: ~3-4 hours.
 | Bundle ID | `com.wavelength.app` |
 | App Store category | Utilities + Education |
 | Price | **Free** |
-| Phases shipped | Phase 3 per memory; 63 tests |
+| Phases shipped | Phases 0–3 complete; 89 tests |
 | Migration state | No `legacy-origin` remote |
 | Memory drift correction | Prior memory described "spectrogram" (audio); canonical state is "RF spectrum visualizer" (wireless signals). Update memory record. |
 | Distinguishing feature | **Eleventh and final iOS App Store cluster member from initial audit.** Caps the cluster. Pattern stable across 11 structurally-distinct iOS apps. |
