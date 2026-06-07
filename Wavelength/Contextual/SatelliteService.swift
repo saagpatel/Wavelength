@@ -7,6 +7,10 @@ import os
 /// Fetches satellite TLEs, caches in GRDB, and computes visibility from observer location.
 actor SatelliteService {
 
+    private enum TLEError: Error {
+        case invalidFormat
+    }
+
     private let dbQueue: DatabaseQueue
     private let logger = Logger(subsystem: "com.yourname.wavelength", category: "SatelliteService")
 
@@ -102,7 +106,7 @@ actor SatelliteService {
         try await dbQueue.write { db in
             for triplet in triplets {
                 let noradId = Self.extractNoradId(from: triplet.line1)
-                var record = SatelliteTLERecord(
+                let record = SatelliteTLERecord(
                     name: triplet.name, noradId: noradId,
                     line1: triplet.line1, line2: triplet.line2,
                     frequencyMhz: frequencyMHz,
@@ -121,7 +125,9 @@ actor SatelliteService {
         name: String, line1: String, line2: String,
         observer: LatLonAlt, at date: Date = Date()
     ) throws -> Double {
-        let satellite = try Satellite(name, line1, line2)
+        try validateTLELines(line1: line1, line2: line2)
+
+        let satellite = Satellite(name, line1, line2)
         let topo = try satellite.topPosition(
             minsAfterEpoch: satellite.minsAfterEpoch,
             observer: observer
@@ -143,7 +149,7 @@ actor SatelliteService {
             let name = lines[i]
             let line1 = lines[i + 1]
             let line2 = lines[i + 2]
-            if line1.hasPrefix("1 ") && line2.hasPrefix("2 ") {
+            if isValidTLEPair(line1: line1, line2: line2) {
                 triplets.append((name, line1, line2))
                 i += 3
             } else {
@@ -155,8 +161,39 @@ actor SatelliteService {
 
     /// Extract NORAD catalog number from TLE line 1 (chars 2-6).
     nonisolated static func extractNoradId(from line1: String) -> Int {
-        let start = line1.index(line1.startIndex, offsetBy: 2)
-        let end = line1.index(line1.startIndex, offsetBy: 7)
-        return Int(line1[start..<end].trimmingCharacters(in: .whitespaces)) ?? 0
+        guard let catalogNumber = tleCatalogNumber(from: line1) else {
+            return 0
+        }
+        return Int(catalogNumber) ?? 0
+    }
+
+    private nonisolated static func validateTLELines(line1: String, line2: String) throws {
+        guard isValidTLEPair(line1: line1, line2: line2) else {
+            throw TLEError.invalidFormat
+        }
+    }
+
+    private nonisolated static func isValidTLEPair(line1: String, line2: String) -> Bool {
+        guard line1.hasPrefix("1 "), line2.hasPrefix("2 ") else {
+            return false
+        }
+        guard let line1Catalog = tleCatalogNumber(from: line1),
+              let line2Catalog = tleCatalogNumber(from: line2) else {
+            return false
+        }
+        return line1Catalog == line2Catalog
+    }
+
+    private nonisolated static func tleCatalogNumber(from line: String) -> String? {
+        guard line.count >= 7 else {
+            return nil
+        }
+        let start = line.index(line.startIndex, offsetBy: 2)
+        let end = line.index(line.startIndex, offsetBy: 7)
+        let catalogNumber = line[start..<end].trimmingCharacters(in: .whitespaces)
+        guard !catalogNumber.isEmpty, catalogNumber.allSatisfy(\.isNumber) else {
+            return nil
+        }
+        return catalogNumber
     }
 }
