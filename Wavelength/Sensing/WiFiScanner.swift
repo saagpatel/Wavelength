@@ -1,4 +1,4 @@
-import NetworkExtension
+@preconcurrency import NetworkExtension
 import os
 
 @Observable
