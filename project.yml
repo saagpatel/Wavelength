@@ -47,7 +47,7 @@ targets:
       - sdk: NetworkExtension.framework
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.waveylength.app
+        PRODUCT_BUNDLE_IDENTIFIER: com.saagarpatel.wavelength
         DEVELOPMENT_TEAM: 3TGZFKFNA4
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
