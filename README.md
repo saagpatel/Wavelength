@@ -1,49 +1,37 @@
 # Wavelength
 
-[![Swift](https://img.shields.io/badge/Swift-f05138?style=flat-square&logo=swift)](#) [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](#)
+Wavelength is an educational iPhone spectrum visualization built with SwiftUI and Metal. It combines Bluetooth Low Energy observations with bundled FM/FCC reference data, calculated satellite visibility, and clearly labeled contextual inferences.
 
-> Every radio signal in the room, rendered in real time
-
-Wavelength is a real-time electromagnetic spectrum visualizer for iOS. It renders a live GPU-accelerated spectrogram of the radio environment around you — Bluetooth, Wi-Fi, cellular, FM broadcast, GPS, and satellites — layered on a log-scale frequency axis from 70 MHz to 6 GHz.
+It is not a software-defined radio, spectrum analyzer, Wi-Fi scanner, cellular-band detector, or safety/security instrument. iPhone hardware and public APIs do not expose raw RF power across the displayed spectrum; the app distinguishes observed, nearby-reference, and probable signals so those categories are not presented as equivalent measurements.
 
 ## Features
 
-- **GPU-rendered spectrogram** — Metal compute shader draws a 1024×512 RGBA8Unorm circular-buffer texture at 30 fps using viridis or magma colormaps
-- **Three signal tiers** — Live (hardware-sensed), Nearby (database + GPS confirmed), and Probable (location-inferred) rendered with distinct visual weight
-- **Multi-source sensing** — CoreBluetooth, NEHotspot Wi-Fi scan, CoreTelephony cellular band detection, and CoreLocation geofencing
-- **FCC band overlay** — spectrum allocation bands drawn as labeled regions directly on the spectrogram (~8 MB bundled SQLite)
-- **CelesTrak satellite propagation** — TLE-based SGP4 satellite position integration; active overhead satellites plotted on the frequency axis
-- **Tap-to-inspect** — bottom sheet with signal label, dBm reading, provenance, and category
-- **Privacy mode** — anonymizes Bluetooth device identifiers before any logging
+- GPU-rendered scrolling visualization with Viridis and Magma color maps
+- Optional Bluetooth Low Energy observation
+- Bundled FCC allocation and FM station reference data
+- CelesTrak orbital-element refresh and on-device satellite visibility calculation
+- Contextual airport-based signal inference
+- Tap-to-inspect provenance and educational descriptions
+- No accounts, analytics, advertising, or tracking
 
-## Quick Start
+## Build
 
-### Prerequisites
-- Xcode 16+
-- iOS 17.0+ device (hardware sensor access required)
+Requirements: Xcode 16 or newer, iOS 17+, and XcodeGen.
 
-### Installation
 ```bash
-git clone https://github.com/saagpatel/Wavelength
-open Wavelength.xcodeproj
+xcodegen generate
+make test
+make release
 ```
 
-### Usage
-Deploy to a physical device. Grant Bluetooth, Wi-Fi (Location), and Location permissions on first launch. The spectrogram starts rendering immediately; tap any signal band to inspect it.
+Bluetooth and location behavior require a physical device. The simulator uses debug-only mock signals to make the rendering and inspection flow testable.
 
-## Tech Stack
+## Data boundaries
 
-| Layer | Technology |
-|-------|------------|
-| Language | Swift 6.0, strict concurrency |
-| UI | SwiftUI |
-| GPU | Metal 3 (compute + render pipeline) |
-| Sensing | CoreBluetooth, NEHotspot, CoreTelephony, CoreLocation |
-| Reference data | FCC SQLite DB, OpenCellID, CelesTrak TLE + SGP4 |
-
-## Architecture
-
-Four sensor actors (`BluetoothScanner`, `WiFiScanner`, `CellularMonitor`, `LocationMonitor`) publish detected signals to a central `SignalRegistry`. The registry merges signals into frequency buckets and writes to a `MTLBuffer` that the Metal compute shader reads each frame. The shader maps power levels to colormap indices and writes to the circular-buffer texture, which the render pipeline samples as a scrolling waterfall. FCC allocation lookups are batched SQL queries triggered only on visible frequency range changes.
+- Bluetooth observations and location remain on-device.
+- The only runtime data download is public satellite TLE data from CelesTrak; location is not included in that request.
+- FM, FCC, and airport reference data ship in the app bundle.
+- Wavelength is educational and must not be used as the sole basis for radio-frequency, navigation, aviation, security, or safety decisions.
 
 ## License
 

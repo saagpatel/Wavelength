@@ -1,8 +1,15 @@
 import SwiftUI
 import os
+import CoreBluetooth
 
 @main
 struct WavelengthApp: App {
+    private enum LaunchState: Equatable {
+        case initializing
+        case ready
+        case failed(String)
+    }
+
     @State private var signalRegistry = SignalRegistry()
     @State private var locationMonitor = LocationMonitor()
     @State private var networkMonitor = NetworkMonitor()
@@ -11,8 +18,9 @@ struct WavelengthApp: App {
     @State private var bluetoothScanner: BluetoothScanner?
     @State private var contextualEngine: ContextualEngine?
     @State private var fccBands: [FrequencyBand] = []
+    @State private var launchState: LaunchState = .initializing
 
-    private let logger = Logger(subsystem: "com.yourname.wavelength", category: "App")
+    private let logger = Logger(subsystem: "com.wavelength.app", category: "App")
 
     var body: some Scene {
         WindowGroup {
@@ -28,11 +36,32 @@ struct WavelengthApp: App {
                             fccBands: fccBands
                         )
                     } else {
-                        OnboardingView(settingsManager: settingsManager)
+                        OnboardingView(
+                            settingsManager: settingsManager,
+                            locationMonitor: locationMonitor,
+                            bluetoothScanner: bluetoothScanner!,
+                            onComplete: startAuthorizedSensing
+                        )
                     }
+                } else if case .failed(let message) = launchState {
+                    ContentUnavailableView {
+                        Label("Wavelength couldn't start", systemImage: "exclamationmark.triangle")
+                    } description: {
+                        Text(message)
+                    } actions: {
+                        Button("Try Again") {
+                            Task { await initialize() }
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                    .preferredColorScheme(.dark)
                 } else {
-                    Color.black
-                        .ignoresSafeArea()
+                    ZStack {
+                        Color.black.ignoresSafeArea()
+                        ProgressView("Preparing Wavelength…")
+                            .tint(.white)
+                            .foregroundStyle(.white)
+                    }
                 }
             }
             .task {
@@ -43,6 +72,7 @@ struct WavelengthApp: App {
 
     @MainActor
     private func initialize() async {
+        launchState = .initializing
         do {
             // Database + settings
             let db = try DatabaseManager.makeDefault()
@@ -76,22 +106,35 @@ struct WavelengthApp: App {
                 signalRegistry: signalRegistry,
                 locationMonitor: locationMonitor,
                 networkMonitor: networkMonitor,
-                databaseManager: db,
-                openCellIDKey: nil
+                databaseManager: db
             )
             contextualEngine = engine
             await engine.start()
 
-            locationMonitor.requestAuthorization()
-            locationMonitor.startMonitoring()
+            if settings.hasSeenOnboarding {
+                startAuthorizedSensing()
+            }
 
             #if DEBUG
             MockSignalProvider.populateRegistry(signalRegistry)
             #endif
 
+            launchState = .ready
             logger.info("Wavelength initialized")
         } catch {
+            launchState = .failed(error.localizedDescription)
             logger.error("Initialization failed: \(error.localizedDescription)")
+        }
+    }
+
+    @MainActor
+    private func startAuthorizedSensing() {
+        let status = locationMonitor.authorizationStatus
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            locationMonitor.startMonitoring()
+        }
+        if CBManager.authorization == .allowedAlways {
+            bluetoothScanner?.requestAuthorizationAndStartScanning()
         }
     }
 }
