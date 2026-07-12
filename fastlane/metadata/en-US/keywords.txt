@@ -1,1 +1,1 @@
-spectrum,RF,radio,electromagnetic,signals,Bluetooth,WiFi,cellular,satellite,FCC,scanner
+spectrum,radio,signals,Bluetooth,satellite,FCC,frequency,science,education,visualizer

@@ -32,13 +32,13 @@ struct TLEParsingTests {
     }
 
     @Test func satelliteKitConstructsFromTLE() throws {
-        let sat = try Satellite(sampleName, sampleLine1, sampleLine2)
+        let sat = Satellite(sampleName, sampleLine1, sampleLine2)
         #expect(sat.commonName.contains("GPS"))
         #expect(sat.noradIdent == "24876")
     }
 
     @Test func gpsAltitudeInExpectedRange() throws {
-        let sat = try Satellite(sampleName, sampleLine1, sampleLine2)
+        let sat = Satellite(sampleName, sampleLine1, sampleLine2)
         let geo = try sat.geoPosition(minsAfterEpoch: 0)
         let altitude = geo.alt
         // GPS orbital altitude: ~20,200 km (19,000 - 21,000 km range)

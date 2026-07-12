@@ -15,7 +15,7 @@ final class SpectrogramTexture {
     private let amplitudeBuffer: MTLBuffer
     private let columnIndexBuffer: MTLBuffer
     private let colormapBuffer: MTLBuffer
-    private let logger = Logger(subsystem: "com.yourname.wavelength", category: "SpectrogramTexture")
+    private let logger = Logger(subsystem: "com.wavelength.app", category: "SpectrogramTexture")
 
     init(device: MTLDevice, pipelineState: MTLComputePipelineState) {
         self.pipelineState = pipelineState

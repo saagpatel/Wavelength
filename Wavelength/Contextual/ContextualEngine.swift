@@ -4,14 +4,13 @@ import GRDB
 import os
 
 /// Coordinates all contextual data services. Observes location changes
-/// and refreshes cell tower, satellite, FM, and probable signal data.
+/// and refreshes satellite, FM, and probable signal data.
 actor ContextualEngine {
 
     private let signalRegistry: SignalRegistry
     private let locationMonitor: LocationMonitor
     private let networkMonitor: NetworkMonitor
     private let databaseManager: DatabaseManager
-    private let cellTowerService: CellTowerService?
     private let satelliteService: SatelliteService
     private let fmStationService: FMStationService
     private let fmDBQueue: DatabaseQueue?
@@ -22,7 +21,7 @@ actor ContextualEngine {
     private var locationPollTask: Task<Void, Never>?
     private var satelliteRefreshTask: Task<Void, Never>?
 
-    private let logger = Logger(subsystem: "com.yourname.wavelength", category: "ContextualEngine")
+    private let logger = Logger(subsystem: "com.wavelength.app", category: "ContextualEngine")
 
     private static let locationThreshold: Double = 500
     private static let locationPollInterval: Duration = .seconds(5)
@@ -32,21 +31,12 @@ actor ContextualEngine {
         signalRegistry: SignalRegistry,
         locationMonitor: LocationMonitor,
         networkMonitor: NetworkMonitor,
-        databaseManager: DatabaseManager,
-        openCellIDKey: String?
+        databaseManager: DatabaseManager
     ) {
         self.signalRegistry = signalRegistry
         self.locationMonitor = locationMonitor
         self.networkMonitor = networkMonitor
         self.databaseManager = databaseManager
-
-        if let key = openCellIDKey, !key.isEmpty {
-            self.cellTowerService = CellTowerService(apiKey: key, dbQueue: databaseManager.dbQueue)
-        } else {
-            self.cellTowerService = nil
-            Logger(subsystem: "com.yourname.wavelength", category: "ContextualEngine")
-                .info("No OpenCellID API key — cell tower service disabled")
-        }
 
         self.satelliteService = SatelliteService(dbQueue: databaseManager.dbQueue)
         self.fmStationService = FMStationService()
@@ -105,12 +95,11 @@ actor ContextualEngine {
         let online = await MainActor.run { networkMonitor.isOnline }
 
         if online {
-            async let towersResult: Void = refreshCellTowers(lat: lat, lon: lon)
             async let fmResult: Void = refreshFMStations(lat: lat, lon: lon)
             async let satResult: Void = refreshSatelliteTLEs()
             async let probableResult: Void = refreshProbableSignals(lat: lat, lon: lon)
 
-            _ = await (towersResult, fmResult, satResult, probableResult)
+            _ = await (fmResult, satResult, probableResult)
         } else {
             logger.info("Offline — loading cached data")
             await loadCachedData(lat: lat, lon: lon)
@@ -119,18 +108,6 @@ actor ContextualEngine {
     }
 
     // MARK: - Online Refresh Methods
-
-    private func refreshCellTowers(lat: Double, lon: Double) async {
-        guard let service = cellTowerService else { return }
-        do {
-            let towers = try await service.fetchNearbyTowers(lat: lat, lon: lon)
-            let signals = CellTowerService.toSignals(towers)
-            await MainActor.run { signalRegistry.setNearbySignals(signals, forCategory: .cellular) }
-            logger.info("Updated \(towers.count) cell towers")
-        } catch {
-            logger.error("Cell tower refresh failed: \(error.localizedDescription)")
-        }
-    }
 
     private func refreshFMStations(lat: Double, lon: Double) async {
         guard let fmDB = fmDBQueue else { return }
@@ -177,22 +154,6 @@ actor ContextualEngine {
     // MARK: - Offline Cache Fallback
 
     private func loadCachedData(lat: Double, lon: Double) async {
-        // Load cached cell towers within 10km (ignore TTL)
-        do {
-            let bbox = CellTowerService.computeBBOX(lat: lat, lon: lon, radiusKm: 10.0)
-            let towers: [CellTowerRecord] = try await databaseManager.dbQueue.read { db in
-                try CellTowerRecord.fetchAll(db, sql: """
-                    SELECT * FROM cell_towers
-                    WHERE latitude >= ? AND latitude <= ? AND longitude >= ? AND longitude <= ?
-                """, arguments: [bbox.latMin, bbox.latMax, bbox.lonMin, bbox.lonMax])
-            }
-            let signals = CellTowerService.toSignals(towers)
-            await MainActor.run { signalRegistry.setNearbySignals(signals, forCategory: .cellular) }
-            logger.info("Loaded \(towers.count) cached cell towers")
-        } catch {
-            logger.error("Cached tower load failed: \(error.localizedDescription)")
-        }
-
         // Load cached FM stations (bundled DB — always available)
         if let fmDB = fmDBQueue {
             do {

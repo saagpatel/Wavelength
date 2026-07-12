@@ -1,5 +1,7 @@
 # Wavelength — Portfolio Disposition
 
+> Historical portfolio snapshot. Its sensing, credential, branch, and readiness claims were superseded by the July 2026 hardening pass. Use `README.md` and `APPSTORE-METADATA.md` for current release posture.
+
 **Status:** Release Frozen (iOS App Store) — SwiftUI iOS RF spectrum
 visualizer on `origin/main`, with full App Store submission
 scaffolding (`APPSTORE-METADATA.md`, fastlane `deliver`,

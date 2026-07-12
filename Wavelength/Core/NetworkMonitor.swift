@@ -13,7 +13,7 @@ final class NetworkMonitor {
 
     private let monitor = NWPathMonitor()
     private let monitorQueue = DispatchQueue(label: "com.wavelength.network-monitor")
-    private let logger = Logger(subsystem: "com.yourname.wavelength", category: "NetworkMonitor")
+    private let logger = Logger(subsystem: "com.wavelength.app", category: "NetworkMonitor")
 
     func startMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in

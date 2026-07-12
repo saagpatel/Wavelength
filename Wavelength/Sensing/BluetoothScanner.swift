@@ -11,18 +11,25 @@ final class BluetoothScanner: NSObject, CBCentralManagerDelegate {
     /// When true, hides advertised device names from display.
     var privacyMode: Bool = true
 
-    private var centralManager: CBCentralManager!
+    private var centralManager: CBCentralManager?
     private let signalRegistry: SignalRegistry
-    private let logger = Logger(subsystem: "com.yourname.wavelength", category: "BluetoothScanner")
+    private let logger = Logger(subsystem: "com.wavelength.app", category: "BluetoothScanner")
 
     init(signalRegistry: SignalRegistry) {
         self.signalRegistry = signalRegistry
         super.init()
-        self.centralManager = CBCentralManager(delegate: self, queue: .main)
     }
 
-    func startScanning() {
-        guard centralManager.state == .poweredOn else {
+    func requestAuthorizationAndStartScanning() {
+        if centralManager == nil {
+            centralManager = CBCentralManager(delegate: self, queue: .main)
+            return
+        }
+        startScanning()
+    }
+
+    private func startScanning() {
+        guard let centralManager, centralManager.state == .poweredOn else {
             logger.info("BT not powered on, deferring scan")
             return
         }
@@ -35,7 +42,7 @@ final class BluetoothScanner: NSObject, CBCentralManagerDelegate {
     }
 
     func stopScanning() {
-        centralManager.stopScan()
+        centralManager?.stopScan()
         isScanning = false
     }
 

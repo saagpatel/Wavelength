@@ -1,5 +1,7 @@
 # Wavelength — Implementation Roadmap
 
+> Historical design document. Its Wi-Fi helper, cellular sensing, OpenCellID, credential, and readiness plans are superseded. Use `README.md`, `CLAUDE.md`, and current source for product truth.
+
 ## Architecture
 
 ### System Overview

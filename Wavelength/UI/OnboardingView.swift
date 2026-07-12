@@ -4,11 +4,13 @@ import CoreLocation
 
 struct OnboardingView: View {
     let settingsManager: SettingsManager
+    let locationMonitor: LocationMonitor
+    let bluetoothScanner: BluetoothScanner
+    let onComplete: @MainActor () -> Void
 
     @State private var currentPage = 0
     @State private var locationGranted = false
     @State private var bluetoothGranted = false
-    @State private var centralManager: CBCentralManager?
 
     var body: some View {
         TabView(selection: $currentPage) {
@@ -78,9 +80,7 @@ struct OnboardingView: View {
                     icon: "location.fill",
                     granted: locationGranted
                 ) {
-                    let manager = CLLocationManager()
-                    manager.requestWhenInUseAuthorization()
-                    // Check after a brief delay for authorization response
+                    locationMonitor.requestAuthorization()
                     Task {
                         try? await Task.sleep(for: .seconds(1))
                         let status = CLLocationManager().authorizationStatus
@@ -93,11 +93,10 @@ struct OnboardingView: View {
                     icon: "antenna.radiowaves.left.and.right",
                     granted: bluetoothGranted
                 ) {
-                    // Initializing CBCentralManager triggers the system Bluetooth prompt
-                    centralManager = CBCentralManager()
+                    bluetoothScanner.requestAuthorizationAndStartScanning()
                     Task {
                         try? await Task.sleep(for: .seconds(1))
-                        bluetoothGranted = centralManager?.state == .poweredOn
+                        bluetoothGranted = CBManager.authorization == .allowedAlways
                     }
                 }
             }
@@ -125,8 +124,8 @@ struct OnboardingView: View {
 
             VStack(alignment: .leading, spacing: 16) {
                 featureRow(icon: "waveform.path.ecg", text: "Real-time spectrogram visualization")
-                featureRow(icon: "antenna.radiowaves.left.and.right", text: "Bluetooth, Wi-Fi, and cellular detection")
-                featureRow(icon: "globe", text: "Cell tower and satellite tracking")
+                featureRow(icon: "antenna.radiowaves.left.and.right", text: "Optional Bluetooth observations")
+                featureRow(icon: "globe", text: "Calculated satellite visibility")
                 featureRow(icon: "radio", text: "FM station identification")
                 featureRow(icon: "hand.tap", text: "Tap any signal for details")
             }
@@ -137,6 +136,7 @@ struct OnboardingView: View {
 
             Button {
                 settingsManager.hasSeenOnboarding = true
+                onComplete()
             } label: {
                 Text("Get Started")
                     .font(.system(size: 16, weight: .semibold, design: .monospaced))

@@ -85,8 +85,6 @@ struct SettingsView: View {
     private var cacheSection: some View {
         Section("Cache") {
             if let stats = cacheStats {
-                Text("Cell towers: \(stats.towerCount)")
-                    .font(.system(size: 13, design: .monospaced))
                 Text("FM stations: \(stats.fmCount)")
                     .font(.system(size: 13, design: .monospaced))
                 Text("Satellites: \(stats.satelliteCount)")
@@ -117,7 +115,7 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
             Link("Source Code on GitHub",
-                 destination: URL(string: "https://github.com/wavelength-app/wavelength")!)
+                 destination: URL(string: "https://github.com/saagpatel/Wavelength")!)
         }
     }
 }
