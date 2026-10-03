@@ -26,6 +26,33 @@ make release
 
 Bluetooth and location behavior require a physical device. The simulator uses debug-only mock signals to make the rendering and inspection flow testable.
 
+## Verification
+
+Run from the repository root. Use full Xcode with active Xcode developer tools and an installed iOS simulator;
+Command Line Tools alone cannot run these checks. The Make targets generate the
+project with XcodeGen; Swift package resolution may download declared packages.
+
+```bash
+# Simulator unit suite; signing is disabled by the Makefile
+make test
+
+# Compile the Release configuration without signing or uploading an archive
+make release
+```
+
+The Makefile's simulator destination must exist locally. Override `DESTINATION` if
+needed, for example `make test DESTINATION='platform=iOS Simulator,name=iPhone 17'`
+for an installed simulator with that name. For a focused pure-data check, open the
+generated project in Xcode and run `FrequencyBandTests` in the Test navigator.
+The broader simulator suite and Release build remain the checks before delivery.
+There is no configured standalone lint or formatter command.
+
+The focused frequency-band suite uses numeric fixtures and needs no Bluetooth,
+location permission, or CelesTrak refresh. For UI changes, check the simulator
+debug mock flow and signal provenance labels. Bluetooth/location behavior needs
+separate device checks. CodeQL excludes the Metal shader; ordinary CI and the
+Release build are the compilation checks that include it.
+
 ## Data boundaries
 
 - Bluetooth observations and location remain on-device.
