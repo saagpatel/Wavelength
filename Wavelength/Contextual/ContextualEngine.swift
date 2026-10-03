@@ -17,7 +17,6 @@ actor ContextualEngine {
     private let airports: [Airport]
 
     private var lastProcessedLocation: CLLocation?
-    private var lastGeocodedLocality: String?
     private var locationPollTask: Task<Void, Never>?
     private var satelliteRefreshTask: Task<Void, Never>?
 
@@ -226,27 +225,20 @@ actor ContextualEngine {
             ))
         }
 
-        // Urban 5G inference via reverse geocoding (skip when offline)
-        let online = await MainActor.run { networkMonitor.isOnline }
-        if online {
-            let geocoder = CLGeocoder()
-            let location = CLLocation(latitude: lat, longitude: lon)
-            if let placemarks = try? await geocoder.reverseGeocodeLocation(location),
-               let locality = placemarks.first?.locality,
-               Self.majorUSCities.contains(locality) {
-                cellularSignals.append(Signal(
-                    id: "probable-5g-\(locality)",
-                    category: .cellular,
-                    provenance: .probable,
-                    frequencyMHz: 3700,
-                    bandwidthMHz: 500,
-                    signalDBM: nil,
-                    label: "5G C-Band",
-                    sublabel: "Probable coverage in \(locality)",
-                    lastUpdated: .now,
-                    isActive: true
-                ))
-            }
+        // Urban 5G inference from bundled city centers (on-device; no location leaves the phone)
+        if let city = MajorCityLocator.nearestCity(lat: lat, lon: lon) {
+            cellularSignals.append(Signal(
+                id: "probable-5g-\(city.name)",
+                category: .cellular,
+                provenance: .probable,
+                frequencyMHz: 3700,
+                bandwidthMHz: 500,
+                signalDBM: nil,
+                label: "5G C-Band",
+                sublabel: "Probable coverage in \(city.name)",
+                lastUpdated: .now,
+                isActive: true
+            ))
         }
 
         await MainActor.run {
@@ -254,17 +246,4 @@ actor ContextualEngine {
             signalRegistry.setProbableSignals(cellularSignals, forCategory: .cellular)
         }
     }
-
-    private static let majorUSCities: Set<String> = [
-        "New York", "Los Angeles", "Chicago", "Houston", "Phoenix",
-        "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose",
-        "Austin", "Jacksonville", "San Francisco", "Columbus", "Charlotte",
-        "Indianapolis", "Seattle", "Denver", "Washington", "Nashville",
-        "Oklahoma City", "Boston", "Portland", "Las Vegas", "Memphis",
-        "Louisville", "Baltimore", "Milwaukee", "Albuquerque", "Tucson",
-        "Fresno", "Sacramento", "Mesa", "Kansas City", "Atlanta",
-        "Omaha", "Colorado Springs", "Raleigh", "Long Beach", "Miami",
-        "Oakland", "Minneapolis", "Tampa", "Arlington", "New Orleans",
-        "Wichita", "Cleveland", "Honolulu", "Anchorage", "Detroit",
-    ]
 }

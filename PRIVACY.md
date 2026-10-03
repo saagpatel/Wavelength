@@ -8,7 +8,7 @@ Bluetooth access is optional and requested only when you choose it during onboar
 
 ## Location
 
-Location access is optional and used while the app is open to select nearby bundled FM and airport reference data and to calculate satellite visibility. Wavelength does not transmit your location. It retains only locally cached reference data, not a location history.
+Location access is optional and used while the app is open to select nearby bundled FM, airport, and major-city reference data and to calculate satellite visibility. Wavelength does not transmit your location. It retains only locally cached reference data, not a location history.
 
 ## Network requests
 
