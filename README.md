@@ -24,7 +24,7 @@ make test
 make release
 ```
 
-Bluetooth and location behavior require a physical device. The simulator uses debug-only mock signals to make the rendering and inspection flow testable.
+Verify Bluetooth/location sensor behavior on a physical device. DEBUG builds on both simulator and physical devices inject mock signals to make the rendering and inspection flow testable, including mock Bluetooth, Wi-Fi, and cellular signals labeled as live.
 
 ## Verification
 
@@ -55,8 +55,8 @@ Release build are the compilation checks that include it.
 
 ## Data boundaries
 
-- Bluetooth observations and location remain on-device.
-- The only runtime data download is public satellite TLE data from CelesTrak; location is not included in that request.
+- Bluetooth observations remain on-device. Location is used for bundled references and satellite calculations, and is passed to CoreLocation reverse geocoding when online for probable urban 5G inference.
+- Satellite TLE data is downloaded from CelesTrak without location parameters; online contextual inference also calls CoreLocation reverse geocoding.
 - FM, FCC, and airport reference data ship in the app bundle.
 - Wavelength is educational and must not be used as the sole basis for radio-frequency, navigation, aviation, security, or safety decisions.
 
