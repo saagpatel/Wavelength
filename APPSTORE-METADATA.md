@@ -65,15 +65,19 @@ Bluetooth observations remain in memory on-device. Location stays on the device;
 
 ## Screenshot plan
 
-Capture the current Release UI on a 6.9-inch iPhone at **1320x2868** in portrait. `TARGETED_DEVICE_FAMILY` is `1`, so an iPad capture is not required. If family `2` is added later, include a 13-inch iPad capture at **2064x2752**.
+Run `scripts/capture-screenshots.sh` to capture the real app UI in deterministic **Debug-only** fixture states. For screenshot production, this numbered plan supersedes the older Release-only screenshot bullet in the Release-owner checklist below; physical Release acceptance remains separate. Each launch uses `-AppStoreScreenshot <n>`, skips onboarding and permissions, uses a fresh in-memory settings/cache database, and leaves sensing, contextual updates, and network monitoring stopped. The Debug screenshot data path supplies a generic Bluetooth example, FM/cellular/GPS/Iridium references, and a probable ADS-B example with a fixed date (2024-01-01 UTC); Bluetooth names are hidden. Reference entries omit measured power and use the normal renderer’s default reference amplitude. The normal Metal amplitude builder and shader render a fixed, fully populated spectrogram history without scrolling.
 
-| Scene | Current UI and capture conditions | Caption |
-|---|---|---|
-| Frequency view | Main screen with frequency axis and bundled FCC allocation overlays. No sensor entries are required. | Explore frequency allocations |
-| Display controls | "Settings" showing "Colormap" with "Viridis" and "Magma", and "Frequency Range". | Choose your color map and frequency range |
-| Bluetooth details, if available | Physical iPhone with Bluetooth allowed and a real BLE advertisement. Tap at its frequency height and verify the selected detail sheet is Bluetooth before capture. Keep "Hide Bluetooth device names" on. Omit this scene if no observation is available. | Inspect Bluetooth activity |
+The required device is **iPhone 18 Pro Max**, 6.9-inch, **1320x2868** portrait. `TARGETED_DEVICE_FAMILY` is `1`, so an iPad capture is not required. If family `2` is added later, add a 13-inch iPad capture at **2064x2752** to this plan and the script.
 
-Use unaltered Release screens. Do not insert DEBUG examples, provider attributions, satellite visibility claims, or captions claiming confirmed nearby signals. Reference entries and inferred strengths are not measurements.
+| n | Scene | Current UI and capture conditions | Device / pixel size | Capture status | Caption |
+|---|---|---|---|---|---|
+| 1 | Frequency view | Main screen with the Full (70–6000 MHz) preset, Viridis spectrogram, bundled FCC overlays, and readable Bluetooth, FM 98.1, LTE/5G reference, GPS L1/Iridium reference, and probable ADS-B labels. | iPhone 18 Pro Max / 1320x2868 | Simulator-capturable | Explore frequency allocations |
+| 2 | Mobile frequency view | Main screen with the Mobile (700–6000 MHz) preset and Magma colormap, both selectable in Settings. Bluetooth, LTE/5G references, GPS L1/Iridium references, and probable ADS-B fill this closer view; FM is outside the displayed range. | iPhone 18 Pro Max / 1320x2868 | Simulator-capturable | Choose your color map and frequency range |
+| 3 | Bluetooth details | The real signal detail sheet for the generic Debug Bluetooth example at 2441 MHz, with generic BLE 2.4 GHz sublabel and the same Live category the app uses for DEBUG fixtures. Selected directly to avoid frequency/annotation tap ambiguity. | iPhone 18 Pro Max / 1320x2868 | Simulator-capturable using existing mock data | Inspect Bluetooth activity |
+
+All three scenes use Debug synthetic signal data and the real production UI; none requires an OPERATOR capture on device. They are illustration fixtures, not proof of Bluetooth observation, Wi-Fi/cellular scanning, nearby reception, or satellite visibility. The Live label and hardware provenance text in scene 3 are the current UI for that DEBUG fixture, not evidence that hardware was used. Do not add provider attributions, invented camera imagery, or captions claiming confirmed nearby signals. Reference entries and inferred strengths are not measurements.
+
+Outputs are ignored PNGs at `screenshots/appstore/iphone-18-pro-max/01.png` through `03.png`. The script builds once without signing, reads the built bundle ID, uses a 9:41 status bar and dark appearance, and verifies every PNG with `sips`. Before capturing each device, it launches scene 1, waits 2 seconds, and terminates the app to remove the cross-app back link; every termination tolerates an already-stopped app. Default settling time is 4 seconds per scene; override with `SHOT_WAIT` or `SHOT_WAIT_1`, `SHOT_WAIT_2`, and `SHOT_WAIT_3` if needed. `DERIVED` overrides `.build/shots`. The script clears its status-bar overrides on exit and shuts down only simulators it booted. Review generated images before upload; parsing and shell checks do not verify simulator rendering.
 
 ## Release-owner checklist
 

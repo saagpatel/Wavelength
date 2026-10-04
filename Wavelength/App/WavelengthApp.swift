@@ -74,6 +74,14 @@ struct WavelengthApp: App {
     private func initialize() async {
         launchState = .initializing
         do {
+            #if DEBUG
+            if let shot = try AppStoreScreenshot.requested() {
+                try initializeAppStoreScreenshot(shot)
+                launchState = .ready
+                return
+            }
+            #endif
+
             // Database + settings
             let db = try DatabaseManager.makeDefault()
             let settings = SettingsManager(dbQueue: db.dbQueue)
@@ -126,6 +134,31 @@ struct WavelengthApp: App {
             logger.error("Initialization failed: \(error.localizedDescription)")
         }
     }
+
+    #if DEBUG
+    @MainActor
+    private func initializeAppStoreScreenshot(_ shot: AppStoreScreenshot) throws {
+        let settings = try shot.makeSettings()
+        let registry = SignalRegistry()
+        AppStoreScreenshot.populateRegistry(registry, frequencyRange: settings.frequencyRange)
+        guard let fccDB = try DatabaseManager.openBundledFCCDatabase() else {
+            throw AppStoreScreenshot.ScreenshotError.missingAllocations
+        }
+        let allocations = try FCCDatabase().allocations(dbQueue: fccDB)
+        guard !allocations.isEmpty else {
+            throw AppStoreScreenshot.ScreenshotError.missingAllocations
+        }
+        let fixedRenderer = try SpectrogramRenderer(signalRegistry: registry, settingsManager: settings)
+        try fixedRenderer.prepareAppStoreScreenshot()
+
+        // No sensors, reachability updates, contextual timers, or reference downloads start here.
+        signalRegistry = registry
+        fccBands = FCCDatabase.toBands(allocations)
+        bluetoothScanner = BluetoothScanner(signalRegistry: registry)
+        settingsManager = settings
+        renderer = fixedRenderer
+    }
+    #endif
 
     @MainActor
     private func startAuthorizedSensing() {
