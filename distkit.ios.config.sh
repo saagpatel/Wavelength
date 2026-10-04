@@ -5,7 +5,7 @@
 DK_PRODUCT_NAME="Wavelength"
 DK_BUNDLE_ID="com.waveylength.app"
 DK_VERSION="1.0.0"
-DK_BUILD_NUMBER="4"
+DK_BUILD_NUMBER="5"
 DK_PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DK_SCHEME="Wavelength"
 DK_XCODE_PROJECT="Wavelength.xcodeproj"
