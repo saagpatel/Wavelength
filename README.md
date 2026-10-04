@@ -59,8 +59,8 @@ Release build are the compilation checks that include it.
 
 ## Data boundaries
 
-- Bluetooth observations remain on-device. Location is used for bundled references and satellite calculations, and is passed to CoreLocation reverse geocoding when online for probable urban 5G inference.
-- Satellite TLE data is downloaded from CelesTrak without location parameters; online contextual inference also calls CoreLocation reverse geocoding.
+- Location and Bluetooth observations remain on-device. Location is used for bundled references (airports, FM stations, major city centers) and satellite calculations.
+- Satellite TLE data is downloaded from CelesTrak without location parameters; no other network request is made.
 - FM, FCC, and airport reference data ship in the app bundle.
 - Wavelength is educational and must not be used as the sole basis for radio-frequency, navigation, aviation, security, or safety decisions.
 

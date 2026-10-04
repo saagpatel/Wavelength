@@ -11,6 +11,6 @@ ADS-B and 5G entries based on where you are
 Tap near a signal's frequency for its category and a short note on what that band is used for
 No accounts, advertising, analytics, or tracking
 
-With location allowed and an internet connection, Wavelength sends your coordinates to Apple to identify your city for 5G entries; Bluetooth observations stay in memory on your device. Satellite reference entries use public orbital data downloaded from CelesTrak; that request does not include your location.
+Your location and Bluetooth observations stay on your device; probable 5G coverage is matched against a bundled list of cities. Satellite reference entries use public orbital data downloaded from CelesTrak; that request does not include your location.
 
 Wavelength is a learning tool, not a spectrum analyzer. Reference and inferred entries do not confirm reception or physical presence, and Wavelength does not measure RF energy. Do not rely on it for safety, navigation, aviation, or security decisions.

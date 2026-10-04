@@ -8,13 +8,11 @@ Bluetooth access is optional and requested only when you choose it during onboar
 
 ## Location
 
-Location access is optional and used while the app is open to select bundled FM and airport references and satellite reference entries. When the app is online, it sends the latitude and longitude supplied by iOS, without rounding them, to Apple's reverse-geocoding service through CoreLocation. The returned city name is used to infer probable 5G coverage in selected US cities. This is an inference, not a cellular measurement. Wavelength does not save a location history on your device.
+Location access is optional and used while the app is open to select bundled FM, airport, and major-city references and satellite reference entries. Probable 5G coverage in selected US cities is inferred on your device from a bundled city list; it is an inference, not a cellular measurement. Wavelength does not transmit your location and does not save a location history on your device.
 
 ## Network requests
 
 Wavelength downloads public satellite orbital elements from CelesTrak over HTTPS. The request does not contain your location, Bluetooth observations, or device identifiers. CelesTrak receives ordinary network information such as your IP address under its own policies.
-
-The Apple reverse-geocoding request described above sends location coordinates to Apple. Bluetooth observations are not included in that request. Apple's processing of the request is governed by Apple's policies.
 
 ## Local storage
 
