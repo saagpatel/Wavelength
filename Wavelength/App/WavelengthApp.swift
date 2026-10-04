@@ -75,8 +75,8 @@ struct WavelengthApp: App {
         launchState = .initializing
         do {
             #if DEBUG
-            if try AppStoreScreenshot.requested() != nil {
-                try initializeAppStoreScreenshot()
+            if let shot = try AppStoreScreenshot.requested() {
+                try initializeAppStoreScreenshot(shot)
                 launchState = .ready
                 return
             }
@@ -137,12 +137,10 @@ struct WavelengthApp: App {
 
     #if DEBUG
     @MainActor
-    private func initializeAppStoreScreenshot() throws {
-        let settings = try AppStoreScreenshot.makeSettings()
+    private func initializeAppStoreScreenshot(_ shot: AppStoreScreenshot) throws {
+        let settings = try shot.makeSettings()
         let registry = SignalRegistry()
-        MockSignalProvider.populateRegistry(
-            registry, date: AppStoreScreenshot.fixtureDate, privacyMode: true
-        )
+        AppStoreScreenshot.populateRegistry(registry, frequencyRange: settings.frequencyRange)
         guard let fccDB = try DatabaseManager.openBundledFCCDatabase() else {
             throw AppStoreScreenshot.ScreenshotError.missingAllocations
         }

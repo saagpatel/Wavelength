@@ -48,12 +48,12 @@ struct LegendView: View {
                 .frame(width: 10, height: 10)
 
             Text(label)
-                .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                .font(.system(size: 13, weight: .semibold, design: .monospaced))
                 .foregroundStyle(.white.opacity(0.9))
 
             Text(description)
-                .font(.system(size: 10, design: .monospaced))
-                .foregroundStyle(.white.opacity(0.5))
+                .font(.system(size: 12, design: .monospaced))
+                .foregroundStyle(.white.opacity(0.7))
         }
     }
 }

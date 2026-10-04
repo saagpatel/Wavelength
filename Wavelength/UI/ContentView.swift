@@ -76,10 +76,8 @@ struct ContentView: View {
             #if DEBUG
             if let shot = try? AppStoreScreenshot.requested() {
                 switch shot {
-                case .frequencyView:
+                case .frequencyView, .mobileView:
                     break
-                case .displayControls:
-                    showSettings = true
                 case .bluetoothDetails:
                     selectedSignal = signalRegistry.liveSignals.first { $0.category == .bluetooth }
                 }

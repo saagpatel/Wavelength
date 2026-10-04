@@ -7,7 +7,7 @@ struct AnnotationOverlay: View {
     var displayRange: ClosedRange<Double> = 70.0...6000.0
 
     private nonisolated static let maxLabels = 15
-    private nonisolated static let minVerticalSpacing: CGFloat = 18
+    private nonisolated static let minVerticalSpacing: CGFloat = 22
 
     var body: some View {
         GeometryReader { geometry in
@@ -22,10 +22,12 @@ struct AnnotationOverlay: View {
                         .fill(Color.white.opacity(0.3))
                         .frame(width: 8, height: 1)
                     Text(label.text)
-                        .font(.system(size: 9, weight: .medium, design: .monospaced))
-                        .foregroundStyle(.white.opacity(0.7))
+                        .font(.system(size: 13, weight: .medium, design: .monospaced))
+                        .foregroundStyle(.white.opacity(0.9))
                 }
-                .position(x: geometry.size.width - 40, y: label.y)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.trailing, 12)
+                .position(x: geometry.size.width / 2, y: label.y)
             }
         }
         .allowsHitTesting(false)
@@ -46,7 +48,7 @@ struct AnnotationOverlay: View {
     ) -> [ResolvedLabel] {
         guard viewHeight > 0 else { return [] }
 
-        let active = signals.filter { $0.isActive }
+        let active = signals.filter { $0.isActive && displayRange.contains($0.frequencyMHz) }
         guard !active.isEmpty else { return [] }
 
         // Priority: live > nearby > probable, then by signal strength
