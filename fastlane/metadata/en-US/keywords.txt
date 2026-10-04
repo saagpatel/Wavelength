@@ -1,1 +1,1 @@
-spectrum,radio,signals,Bluetooth,satellite,FCC,frequency,science,education,visualizer
+spectrum,radio,signals,Bluetooth,FM,FCC,frequency,science,education,visualizer,spectrogram,bands
