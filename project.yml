@@ -59,6 +59,12 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown"
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Wavelength uses your location to select nearby FM and airport references, calculate satellite visibility, and request your city from Apple's geocoding service for probable 5G coverage."
         INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription: "Wavelength detects nearby Bluetooth devices to display them on the spectrogram."
+      configs:
+        Release:
+          CODE_SIGN_STYLE: Manual
+          CODE_SIGN_IDENTITY: "Apple Distribution"
+          PROVISIONING_PROFILE_SPECIFIER: "Wavelength App Store"
+          DEVELOPMENT_TEAM: 3TGZFKFNA4
 
   WavelengthTests:
     type: bundle.unit-test
