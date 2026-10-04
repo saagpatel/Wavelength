@@ -34,7 +34,7 @@ Features:
 - Tap near a signal's frequency for its category and a short note on what that band is used for
 - No accounts, advertising, analytics, or tracking
 
-With location allowed and an internet connection, Wavelength sends your coordinates to Apple to identify your city for 5G entries; Bluetooth observations stay in memory on your device. Satellite reference entries use public orbital data downloaded from CelesTrak; that request does not include your location.
+Your location and Bluetooth observations stay on your device; probable 5G coverage is matched against a bundled list of cities. Satellite reference entries use public orbital data downloaded from CelesTrak; that request does not include your location.
 
 Wavelength is a learning tool, not a spectrum analyzer. Reference and inferred entries do not confirm reception or physical presence, and Wavelength does not measure RF energy. Do not rely on it for safety, navigation, aviation, or security decisions.
 
@@ -61,7 +61,7 @@ The "Live", "Nearby", and "Probable" labels are app categories. "Nearby" entries
 
 Release builds contain no example signals. A simulator review should use the frequency axis, allocation overlays, and Settings path above; do not expect live BLE observations. Location-dependent entries require a supplied simulator location or a physical device location fix. DEBUG builds inject example Bluetooth, Wi-Fi, and cellular entries labeled "Live" on both simulator and device; those examples are absent from the submitted Release build. Wavelength does not scan Wi-Fi or cellular signals.
 
-Bluetooth observations remain in memory on-device. When location is allowed and the app is online, coordinates are sent to Apple's reverse-geocoding service to identify the city for probable 5G coverage. CelesTrak satellite-data requests do not include location. See `PRIVACY.md` for the same data boundaries.
+Bluetooth observations remain in memory on-device. Location stays on the device; probable 5G coverage is inferred by matching location against bundled city centers. CelesTrak satellite-data requests do not include location. See `PRIVACY.md` for the same data boundaries.
 
 ## Screenshot plan
 
@@ -81,7 +81,7 @@ Use unaltered Release screens. Do not insert DEBUG examples, provider attributio
 - [ ] Resolve provisioning, run a signed archive, and Validate App.
 - [ ] Test Bluetooth allow/deny, location allow/deny, offline behavior, cache clearing, and rendering on physical devices.
 - [ ] Follow the review path above on a physical Release build, including relaunch after granting location and frequency-based detail selection. Do not require local FM, airport, 5G, or satellite entries to appear.
-- [ ] Confirm privacy nutrition labels against `PRIVACY.md`, Apple reverse geocoding, CelesTrak requests, and resolved dependency behavior.
+- [ ] Confirm privacy nutrition labels against `PRIVACY.md`, CelesTrak requests, and resolved dependency behavior.
 - [ ] Capture the screenshot scenes above at 1320x2868 from a Release build. Use real BLE observations with names hidden for the optional Bluetooth scene; exclude DEBUG examples and unsupported confirmation or visibility captions.
 - [ ] Decide price, territories, categories, age-rating answers, copyright, and support ownership.
 - [ ] Complete TestFlight review before submission.
