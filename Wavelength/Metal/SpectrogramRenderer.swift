@@ -18,6 +18,53 @@ final class SpectrogramRenderer: NSObject, MTKViewDelegate {
     private let columnInterval: Duration = .seconds(2)
     private var currentColormap: Colormap
 
+    #if DEBUG
+    private var appStoreScreenshotFrozen = false
+
+    /// Use the normal amplitude builder and Metal shader, then repeat that fixed column.
+    /// This fills every texel before the first frame without depending on elapsed time.
+    func prepareAppStoreScreenshot() throws {
+        let descriptor = MTLTextureDescriptor.texture2DDescriptor(
+            pixelFormat: .rgba8Unorm, width: 1,
+            height: SpectrogramTexture.frequencyBins, mipmapped: false
+        )
+        descriptor.storageMode = .shared
+        guard let column = device.makeTexture(descriptor: descriptor),
+              let buffer = commandQueue.makeCommandBuffer() else {
+            throw AppStoreScreenshot.ScreenshotError.renderingFailed
+        }
+        let amplitudes = Self.buildAmplitudeArray(
+            from: signalRegistry.visibleSignals, frequencyRange: settingsManager.frequencyRange
+        )
+        spectrogramTexture.advanceColumn(data: amplitudes, commandBuffer: buffer)
+        guard let blit = buffer.makeBlitCommandEncoder() else {
+            throw AppStoreScreenshot.ScreenshotError.renderingFailed
+        }
+        let size = MTLSize(width: 1, height: SpectrogramTexture.frequencyBins, depth: 1)
+        blit.copy(
+            from: spectrogramTexture.texture, sourceSlice: 0, sourceLevel: 0,
+            sourceOrigin: MTLOrigin(x: 0, y: 0, z: 0), sourceSize: size,
+            to: column, destinationSlice: 0, destinationLevel: 0,
+            destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0)
+        )
+        for x in 1..<SpectrogramTexture.timeColumns {
+            blit.copy(
+                from: column, sourceSlice: 0, sourceLevel: 0,
+                sourceOrigin: MTLOrigin(x: 0, y: 0, z: 0), sourceSize: size,
+                to: spectrogramTexture.texture, destinationSlice: 0, destinationLevel: 0,
+                destinationOrigin: MTLOrigin(x: x, y: 0, z: 0)
+            )
+        }
+        blit.endEncoding()
+        buffer.commit()
+        buffer.waitUntilCompleted()
+        guard buffer.status == .completed else {
+            throw AppStoreScreenshot.ScreenshotError.renderingFailed
+        }
+        appStoreScreenshotFrozen = true
+    }
+    #endif
+
     init(signalRegistry: SignalRegistry, settingsManager: SettingsManager) throws {
         guard let device = MTLCreateSystemDefaultDevice() else {
             throw RendererError.noDevice
@@ -77,16 +124,7 @@ final class SpectrogramRenderer: NSObject, MTKViewDelegate {
             spectrogramTexture.updateColormap(currentColormap.lutData)
         }
 
-        // Check if it's time to write a new column
-        let now = ContinuousClock.now
-        if now - lastColumnTime >= columnInterval {
-            let amplitudes = Self.buildAmplitudeArray(
-                from: signalRegistry.visibleSignals,
-                frequencyRange: settingsManager.frequencyRange
-            )
-            spectrogramTexture.advanceColumn(data: amplitudes, commandBuffer: commandBuffer)
-            lastColumnTime = now
-        }
+        advanceColumnIfNeeded(commandBuffer: commandBuffer)
 
         // Update write index buffer for fragment shader
         let writeIdx = UInt32(spectrogramTexture.writeIndex % SpectrogramTexture.timeColumns)
@@ -105,6 +143,21 @@ final class SpectrogramRenderer: NSObject, MTKViewDelegate {
 
         commandBuffer.present(drawable)
         commandBuffer.commit()
+    }
+
+    private func advanceColumnIfNeeded(commandBuffer: MTLCommandBuffer) {
+        #if DEBUG
+        if appStoreScreenshotFrozen { return }
+        #endif
+        let now = ContinuousClock.now
+        if now - lastColumnTime >= columnInterval {
+            let amplitudes = Self.buildAmplitudeArray(
+                from: signalRegistry.visibleSignals,
+                frequencyRange: settingsManager.frequencyRange
+            )
+            spectrogramTexture.advanceColumn(data: amplitudes, commandBuffer: commandBuffer)
+            lastColumnTime = now
+        }
     }
 
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
