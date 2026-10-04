@@ -7,8 +7,12 @@ build/
 
 # SPM
 .build/
+.build/shots/
 .swiftpm/
 Packages/
+
+# Generated App Store simulator captures (uploaded by the dispatcher)
+screenshots/appstore/
 
 # Config (API keys)
 Config.xcconfig
