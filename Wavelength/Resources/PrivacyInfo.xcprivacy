@@ -10,6 +10,8 @@
     <array/>
     <key>NSPrivacyAccessedAPITypes</key>
     <array>
+        <!-- Renderer measures elapsed time between spectrogram columns with ContinuousClock.
+             Timing information stays on-device; 35F9.1 covers in-app elapsed-time timers. -->
         <dict>
             <key>NSPrivacyAccessedAPIType</key>
             <string>NSPrivacyAccessedAPICategorySystemBootTime</string>
