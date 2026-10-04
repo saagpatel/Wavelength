@@ -102,7 +102,7 @@ struct SignalDetailPanel: View {
     private var provenanceExplanation: String {
         switch signal.provenance {
         case .live: "Actively sensed by device hardware"
-        case .nearby: "Confirmed present via database at this location"
+        case .nearby: "Listed in a database for this area"
         case .probable: "Inferred from location context"
         }
     }
