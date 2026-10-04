@@ -346,7 +346,7 @@ struct CellularInfo: Sendable {
 
 **Tasks:**
 
-1. Create Xcode project: iOS 17+ target, Swift 6 language mode, SwiftUI lifecycle, bundle ID `com.yourname.wavelength`. Add SPM packages: GRDB.swift, Alamofire, SwiftyTLE. **Acceptance:** `xcodebuild build -scheme Wavelength` → 0 errors, 0 warnings under Swift 6 strict concurrency.
+1. Create Xcode project: iOS 17+ target, Swift 6 language mode, SwiftUI lifecycle, bundle ID `com.waveylength.app`. Add SPM packages: GRDB.swift, Alamofire, SwiftyTLE. **Acceptance:** `xcodebuild build -scheme Wavelength` → 0 errors, 0 warnings under Swift 6 strict concurrency.
 
 2. Configure `Wavelength.entitlements` with `com.apple.developer.networking.HotspotHelper`. Write and submit entitlement justification letter to Apple Developer portal (frame as "network environment awareness tool for IT/security professionals"). **Acceptance:** Confirmation email from Apple received; entitlement request visible in developer portal.
 

@@ -12,7 +12,7 @@ actor SatelliteService {
     }
 
     private let dbQueue: DatabaseQueue
-    private let logger = Logger(subsystem: "com.wavelength.app", category: "SatelliteService")
+    private let logger = Logger(subsystem: "com.waveylength.app", category: "SatelliteService")
 
     private static let cacheTTL: TimeInterval = 24 * 3600
     private static let elevationThreshold: Double = 10.0

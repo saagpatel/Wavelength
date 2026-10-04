@@ -6,9 +6,9 @@ Confirm all values in App Store Connect before submission.
 
 | Field | Draft value |
 |---|---|
-| Name | Wavelength |
+| Name | Wavelength: RF Spectrum |
 | Subtitle | Explore the signal landscape |
-| Bundle ID | `com.wavelength.app` |
+| Bundle ID | `com.waveylength.app` |
 | SKU | `WAVELENGTH-001` |
 | Primary category | Education |
 | Secondary category | Utilities |
@@ -55,7 +55,7 @@ No account, credential, entitlement-only Wi-Fi helper, cellular scanner, or in-a
 
 ## Release-owner checklist
 
-- [ ] Confirm `com.wavelength.app` in Apple Developer and App Store Connect.
+- [ ] Confirm `com.waveylength.app` in Apple Developer and App Store Connect.
 - [ ] Resolve provisioning, run a signed archive, and Validate App.
 - [ ] Test Bluetooth allow/deny, location allow/deny, offline behavior, cache clearing, and rendering on physical devices.
 - [ ] Confirm privacy nutrition labels against `PRIVACY.md` and actual behavior.

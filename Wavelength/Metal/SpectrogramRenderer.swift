@@ -12,7 +12,7 @@ final class SpectrogramRenderer: NSObject, MTKViewDelegate {
     private let computePipeline: MTLComputePipelineState
     private let renderPipeline: MTLRenderPipelineState
     private let writeIndexBuffer: MTLBuffer
-    private let logger = Logger(subsystem: "com.wavelength.app", category: "SpectrogramRenderer")
+    private let logger = Logger(subsystem: "com.waveylength.app", category: "SpectrogramRenderer")
 
     private var lastColumnTime: ContinuousClock.Instant = .now
     private let columnInterval: Duration = .seconds(2)

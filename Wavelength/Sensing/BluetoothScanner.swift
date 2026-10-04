@@ -13,7 +13,7 @@ final class BluetoothScanner: NSObject, CBCentralManagerDelegate {
 
     private var centralManager: CBCentralManager?
     private let signalRegistry: SignalRegistry
-    private let logger = Logger(subsystem: "com.wavelength.app", category: "BluetoothScanner")
+    private let logger = Logger(subsystem: "com.waveylength.app", category: "BluetoothScanner")
 
     init(signalRegistry: SignalRegistry) {
         self.signalRegistry = signalRegistry

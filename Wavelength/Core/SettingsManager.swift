@@ -73,7 +73,7 @@ struct CacheStats: Sendable {
 final class SettingsManager {
 
     private let dbQueue: DatabaseQueue
-    private let logger = Logger(subsystem: "com.wavelength.app", category: "Settings")
+    private let logger = Logger(subsystem: "com.waveylength.app", category: "Settings")
 
     // Suppress observation tracking for didSet-triggered DB writes
     private var _colormap: Colormap = .viridis
