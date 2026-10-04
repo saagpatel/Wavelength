@@ -35,7 +35,7 @@ final class SignalRegistry {
         return Self.mergeAndSort(live: liveSignals, nearby: nearbySignals, probable: [])
     }
 
-    private let logger = Logger(subsystem: "com.wavelength.app", category: "SignalRegistry")
+    private let logger = Logger(subsystem: "com.waveylength.app", category: "SignalRegistry")
 
     func addLiveSignal(_ signal: Signal) {
         if let idx = liveSignals.firstIndex(where: { $0.id == signal.id }) {

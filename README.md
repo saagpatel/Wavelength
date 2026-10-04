@@ -18,6 +18,10 @@ It is not a software-defined radio, spectrum analyzer, Wi-Fi scanner, cellular-b
 
 Requirements: Xcode 16 or newer, iOS 17+, and XcodeGen.
 
+The App Store Connect bundle ID is `com.waveylength.app`; the next upload uses
+build 4. The marketing version remains `1.0.0` pending dispatcher alignment with
+the store's `1.0` record. See `APP-STORE-READINESS.md` for upload blockers and checks.
+
 ```bash
 xcodegen generate
 make test

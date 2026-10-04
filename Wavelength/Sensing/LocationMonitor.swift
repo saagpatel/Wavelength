@@ -23,7 +23,7 @@ final class LocationMonitor {
     let distanceThreshold: Double
 
     private let locationManager = CLLocationManager()
-    private let logger = Logger(subsystem: "com.wavelength.app", category: "LocationMonitor")
+    private let logger = Logger(subsystem: "com.waveylength.app", category: "LocationMonitor")
     private var monitoringTask: Task<Void, Never>?
 
     init(distanceThreshold: Double = 500.0) {

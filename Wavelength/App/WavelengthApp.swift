@@ -20,7 +20,7 @@ struct WavelengthApp: App {
     @State private var fccBands: [FrequencyBand] = []
     @State private var launchState: LaunchState = .initializing
 
-    private let logger = Logger(subsystem: "com.wavelength.app", category: "App")
+    private let logger = Logger(subsystem: "com.waveylength.app", category: "App")
 
     var body: some Scene {
         WindowGroup {

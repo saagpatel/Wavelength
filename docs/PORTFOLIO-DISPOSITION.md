@@ -47,7 +47,7 @@ Specifically verified on `origin/main`:
     scheme generation
 - App Store identity:
   - Name: **Wavelength**, Subtitle: **See the Invisible RF World**
-  - Bundle ID: `com.wavelength.app`, SKU: `WAVELENGTH-001`
+  - Bundle ID: `com.waveylength.app`, SKU: `WAVELENGTH-001`
   - Categories: **Utilities** + **Education**
   - Age Rating: 4+, **Price: Free**, All territories
 - Default branch: `main`
@@ -180,7 +180,7 @@ Estimated operator time: ~3-4 hours.
 | `origin/main` tip | `99b04ef` chore: replace placeholder icon with AI-generated app icon |
 | Default branch | `main` |
 | Build system | iOS / Swift / SwiftUI / **CoreBluetooth + NetworkExtension** / XcodeGen / XCTest |
-| Bundle ID | `com.wavelength.app` |
+| Bundle ID | `com.waveylength.app` |
 | App Store category | Utilities + Education |
 | Price | **Free** |
 | Phases shipped | Phases 0–3 complete; 89 tests |

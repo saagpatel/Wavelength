@@ -20,7 +20,7 @@ actor ContextualEngine {
     private var locationPollTask: Task<Void, Never>?
     private var satelliteRefreshTask: Task<Void, Never>?
 
-    private let logger = Logger(subsystem: "com.wavelength.app", category: "ContextualEngine")
+    private let logger = Logger(subsystem: "com.waveylength.app", category: "ContextualEngine")
 
     private static let locationThreshold: Double = 500
     private static let locationPollInterval: Duration = .seconds(5)

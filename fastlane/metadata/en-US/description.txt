@@ -1,14 +1,16 @@
-Wavelength is an educational window into the signal landscape around you.
+Wavelength draws a scrolling, spectrogram-style display of the radio spectrum: Bluetooth Low Energy activity your iPhone can observe, plus reference entries for FM stations and FCC frequency allocations, all on one frequency axis.
 
-Explore a GPU-rendered frequency visualization that separates three kinds of information: Bluetooth activity your iPhone can observe, public reference signals relevant near your location, and contextual signals that are only probable. Tap any annotation to see its source and learn what that part of the spectrum is used for.
+With permission, your iPhone picks up the Bluetooth Low Energy broadcasts around you. Allow location and Wavelength lists FM station references for your area, adds an ADS-B entry when you are within 2 km of a bundled airport, and marks probable 5G C-Band coverage when an online city lookup matches a selected US city.
 
 Features:
-- Optional nearby Bluetooth Low Energy observation
-- Bundled FM station and FCC allocation references
-- Calculated GPS and Iridium satellite visibility using public orbital data
-- Airport-based contextual signals
-- Viridis and Magma visual themes
-- Clear observed, nearby, and probable provenance labels
-- No accounts, advertising, analytics, or tracking
+Scrolling display with Viridis and Magma color maps
+Optional nearby Bluetooth Low Energy observation
+Bundled FM station and FCC allocation references
+GPS and Iridium satellite references
+ADS-B and 5G entries based on where you are
+Tap near a signal's frequency for its category and a short note on what that band is used for
+No accounts, advertising, analytics, or tracking
 
-Wavelength is a visualization and educational reference, not a calibrated spectrum analyzer or software-defined radio. It does not measure raw RF energy across the displayed range and must not be used for safety, navigation, aviation, or security decisions.
+Your location and Bluetooth observations stay on your device; probable 5G coverage is matched against a bundled list of cities. Satellite reference entries use public orbital data downloaded from CelesTrak; that request does not include your location.
+
+Wavelength is a learning tool, not a spectrum analyzer. Reference and inferred entries do not confirm reception or physical presence, and Wavelength does not measure RF energy. Do not rely on it for safety, navigation, aviation, or security decisions.

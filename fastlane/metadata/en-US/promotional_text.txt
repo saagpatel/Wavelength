@@ -1,0 +1,1 @@
+A scrolling, spectrogram-style map of the radio spectrum: nearby Bluetooth activity, FM station references, and FCC band allocations, with notes on what each is for.

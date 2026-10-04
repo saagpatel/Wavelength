@@ -12,8 +12,8 @@ final class NetworkMonitor {
     private(set) var lastOnlineDate: Date = .now
 
     private let monitor = NWPathMonitor()
-    private let monitorQueue = DispatchQueue(label: "com.wavelength.network-monitor")
-    private let logger = Logger(subsystem: "com.wavelength.app", category: "NetworkMonitor")
+    private let monitorQueue = DispatchQueue(label: "com.waveylength.app.network-monitor")
+    private let logger = Logger(subsystem: "com.waveylength.app", category: "NetworkMonitor")
 
     func startMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in
