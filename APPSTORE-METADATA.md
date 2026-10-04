@@ -7,7 +7,7 @@ Confirm all values in App Store Connect before submission.
 | Field | Draft value |
 |---|---|
 | Name | Wavelength: RF Spectrum |
-| Subtitle | Explore the signal landscape |
+| Subtitle | A field guide to radio bands |
 | Bundle ID | `com.waveylength.app` |
 | SKU | `WAVELENGTH-001` |
 | Primary category | Education |
@@ -16,30 +16,31 @@ Confirm all values in App Store Connect before submission.
 
 ## Keywords
 
-`spectrum,radio,signals,Bluetooth,FM,FCC,frequency,science,education,visualizer`
+`spectrum,radio,signals,Bluetooth,FM,FCC,frequency,science,education,visualizer,spectrogram,bands`
 
 ## Description
 
-Wavelength puts Bluetooth activity and radio reference data on a scrolling frequency visualization.
+Wavelength draws a scrolling, spectrogram-style display of the radio spectrum: Bluetooth Low Energy activity your iPhone can observe, plus reference entries for FM stations and FCC frequency allocations, all on one frequency axis.
 
-Explore FM station references and FCC frequency allocations. With permission, your iPhone can observe nearby Bluetooth Low Energy advertisements. Location helps select FM references and infer possible signals near airports and in selected US cities.
+With permission, your iPhone picks up the Bluetooth Low Energy broadcasts around you. Allow location and Wavelength lists FM station references for your area, adds an ADS-B entry when you are within 2 km of a bundled airport, and marks probable 5G C-Band coverage when an online city lookup matches a selected US city.
 
 Features:
 
-- GPU-rendered visualization with Viridis and Magma color maps
+- Scrolling display with Viridis and Magma color maps
 - Optional nearby Bluetooth Low Energy observation
 - Bundled FM station and FCC allocation references
-- Airport-based signal inferences
-- Frequency, category, and educational details for selected signals
+- GPS and Iridium satellite references
+- ADS-B and 5G entries based on where you are
+- Tap near a signal's frequency for its category and a short note on what that band is used for
 - No accounts, advertising, analytics, or tracking
 
-Bluetooth observations stay in memory on your device. When location is allowed and the app is online, Wavelength sends coordinates to Apple's reverse-geocoding service to identify your city for probable 5G coverage. Public satellite orbital data is downloaded from CelesTrak without your location.
+With location allowed and an internet connection, Wavelength sends your coordinates to Apple to identify your city for 5G entries; Bluetooth observations stay in memory on your device. Satellite reference entries use public orbital data downloaded from CelesTrak; that request does not include your location.
 
-Reference entries and inferred signals do not confirm reception or physical presence. Wavelength does not measure raw RF energy across the displayed range. It is an educational reference and must not be used for safety, navigation, aviation, or security decisions.
+Wavelength is a learning tool, not a spectrum analyzer. Reference and inferred entries do not confirm reception or physical presence, and Wavelength does not measure RF energy. Do not rely on it for safety, navigation, aviation, or security decisions.
 
 ## Promotional text
 
-`Explore Bluetooth activity, FM station references, and FCC frequency allocations on a scrolling visualization. Learn what different frequencies are used for.`
+`A scrolling, spectrogram-style map of the radio spectrum: nearby Bluetooth activity, FM station references, and FCC band allocations, with notes on what each is for.`
 
 ## URLs
 

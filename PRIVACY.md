@@ -4,11 +4,11 @@ Wavelength has no user accounts, advertising, analytics, or tracking.
 
 ## Bluetooth
 
-Bluetooth access is optional and requested only when you choose it during onboarding. Wavelength uses Bluetooth Low Energy advertisements to visualize nearby signal activity. Device names are hidden by default. Bluetooth observations remain in memory and are not transmitted or retained after the app closes.
+Bluetooth access is optional and requested only when you choose it during onboarding. Wavelength uses Bluetooth Low Energy broadcasts to visualize nearby signal activity. Device names are hidden by default. Bluetooth observations remain in memory and are not transmitted or retained after the app closes.
 
 ## Location
 
-Location access is optional and used while the app is open to select bundled FM and airport references and for satellite calculations. When the app is online, it sends the latitude and longitude supplied by iOS, without rounding them, to Apple's reverse-geocoding service through CoreLocation. The returned city name is used to infer probable 5G coverage in selected US cities. This is an inference, not a cellular measurement. Wavelength does not save a location history on your device.
+Location access is optional and used while the app is open to select bundled FM and airport references and satellite reference entries. When the app is online, it sends the latitude and longitude supplied by iOS, without rounding them, to Apple's reverse-geocoding service through CoreLocation. The returned city name is used to infer probable 5G coverage in selected US cities. This is an inference, not a cellular measurement. Wavelength does not save a location history on your device.
 
 ## Network requests
 
