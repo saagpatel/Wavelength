@@ -96,6 +96,12 @@ while IFS='|' read -r id state slug; do
     xcrun simctl ui "$id" appearance dark
     mkdir -p "$OUTPUT/$slug"
 
+    # Prime the foreground history so the first capture has no cross-app back link.
+    xcrun simctl terminate "$id" "$bundle_id" >/dev/null 2>&1 || true
+    xcrun simctl launch "$id" "$bundle_id" -AppStoreScreenshot 1
+    sleep 2
+    xcrun simctl terminate "$id" "$bundle_id" >/dev/null 2>&1 || true
+
     for shot in "${SHOTS[@]}"; do
         wait_var="SHOT_WAIT_$shot"
         settle="${!wait_var:-${SHOT_WAIT:-4}}"
