@@ -16,7 +16,7 @@ struct LegendView: View {
                 opacity: 0.5,
                 filled: true,
                 label: "Nearby",
-                description: "Confirmed nearby"
+                description: "Reference near you"
             )
             legendRow(
                 color: .orange,

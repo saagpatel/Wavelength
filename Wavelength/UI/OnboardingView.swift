@@ -42,7 +42,7 @@ struct OnboardingView: View {
                 provenanceRow(color: .green, opacity: 1.0, filled: true,
                               label: "Live", description: "Sensed by your device")
                 provenanceRow(color: .blue, opacity: 0.5, filled: true,
-                              label: "Nearby", description: "Confirmed present via GPS + data")
+                              label: "Nearby", description: "Reference near you")
                 provenanceRow(color: .orange, opacity: 0.3, filled: false,
                               label: "Probable", description: "Inferred from context")
             }
@@ -69,7 +69,7 @@ struct OnboardingView: View {
                 .font(.system(size: 32, weight: .bold, design: .monospaced))
                 .foregroundStyle(.white)
 
-            Text("Wavelength needs access to your location\nand Bluetooth to detect nearby signals.")
+            Text("Location and Bluetooth are optional.\nLocation selects references; Bluetooth observes broadcasts.")
                 .font(.system(size: 14, weight: .light, design: .monospaced))
                 .foregroundStyle(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -123,11 +123,11 @@ struct OnboardingView: View {
                 .foregroundStyle(.white)
 
             VStack(alignment: .leading, spacing: 16) {
-                featureRow(icon: "waveform.path.ecg", text: "Real-time spectrogram visualization")
+                featureRow(icon: "waveform.path.ecg", text: "Scrolling frequency display")
                 featureRow(icon: "antenna.radiowaves.left.and.right", text: "Optional Bluetooth observations")
-                featureRow(icon: "globe", text: "Calculated satellite visibility")
-                featureRow(icon: "radio", text: "FM station identification")
-                featureRow(icon: "hand.tap", text: "Tap any signal for details")
+                featureRow(icon: "globe", text: "GPS and Iridium satellite references")
+                featureRow(icon: "radio", text: "FM station references")
+                featureRow(icon: "hand.tap", text: "Tap near a signal's frequency for details")
             }
             .padding(24)
             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
